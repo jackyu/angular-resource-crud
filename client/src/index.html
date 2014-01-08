@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="resourceApp">
+<html lang="en" ng-app="app">
 <head>
 	<meta charset="utf-8">
 	<title>AngularJS ngResource CRUD 練習範例</title>
@@ -8,27 +8,29 @@
 	<link rel="stylesheet" href="static/assets/css/app.css">
 </head>
 
-<body>
+<body ng-controller="appCtrl">
 
 	
 	<!-- navigation -->
 	<div id="wrap">
 		
+		<div ng-include="'static/app/header.tpl.html'"></div>
+		
 		<!-- content -->
 		<div class="container">
+			<div ng-view></div>
 		</div>
 		
 	</div>
 	
 	<!-- footer -->
-	<div id="footer">
-	</div>
+	<div ng-include="'static/app/footer.tpl.html'"></div>
 	
 	<!-- JavaScripts -->
 	<script src="vendor/angular/angular.js"></script>
 	<script src="vendor/angular-route/angular-route.js"></script>
 	<script src="vendor/angular-resource/angular-resource.js"></script>
-	<script src="static/app.js"></script>
+	<script src="static/app/app.js"></script>
 </body>
 
 </html>
