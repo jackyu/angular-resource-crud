@@ -1,19 +1,15 @@
 {
-  "name": "client",
-  "version": "0.0.0",
+  "name": "angaulr-resource-crud-client",
+  "version": "0.0.1",
+  "description": "angular ngResource CRUD 練習範例 client 端",
   "authors": [
-    "j@mba <riaguru@gmail.com>"
+    "Jack Yu"
   ],
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "vendor",
-    "test",
-    "tests"
-  ],
   "dependencies": {
-    "jquery": "~2.0.3"
-  }
+    "angular-resource": "~1.2.7",
+    "angular-route": "~1.2.7",
+    "angular": "~1.2.7"
+  },
+  "private": true
 }

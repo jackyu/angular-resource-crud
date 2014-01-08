@@ -4,6 +4,7 @@
 	"homepage": "",
 	"description": "angular ngResource CRUD 練習範例 server 端",
 	"version": "0.0.1",
+	"license": "MIT",
 	"private": true,
 	"repository": {
 		"type": "git",

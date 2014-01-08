@@ -1,23 +1,13 @@
 {
-  "author": "Jeremy Lu",
-  "name": "app",
-  "homepage": "docknote.com",
-  "version": "0.1",
+  "author": "Jack Yu",
+  "name": "angaulr-resource-crud-client",
+  "homepage": "",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
   "repository": {
     "type": "git",
-    "url": ""
-  },
-  "bugs": {
-    "url": ""
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/angular-app/angular-app/master/LICENSE"
-    }
-  ],
-  "engines": {
-    "node": ">= 0.8.4"
+    "url": "https://github.com/jackyu/angular-resource-crud.git"
   },
   "dependencies": {},
   "devDependencies": {
