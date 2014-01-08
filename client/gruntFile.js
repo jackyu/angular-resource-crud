@@ -1,5 +1,4 @@
-
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -9,7 +8,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
-
+  grunt.loadNpmTasks('grunt-sass');
 
   // 註冊一個新的 task，名稱為 timestamp，目地是打出時間碼
   // Print a timestamp (useful for when watching)
@@ -23,14 +22,9 @@ module.exports = function (grunt) {
     return grunt.util._.extend(options, customOptions, travisOptions);
   };
 
-  // Project configuration.
   grunt.initConfig({
-
     distdir: 'dist',
-    
-    // 這是在讀取 /client/package.json 裏的設定值
     pkg: grunt.file.readJSON('package.json'),
-    
     banner:
     '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
     '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -55,7 +49,6 @@ module.exports = function (grunt) {
       }
     },
 
-    
     //========================================================================
     //
     // 下面開始是 task 
@@ -89,7 +82,7 @@ module.exports = function (grunt) {
       }
 
     },
-    
+
     // 將 template 全組合成一個大字串
     html2js: {
     
@@ -141,7 +134,6 @@ module.exports = function (grunt) {
           process: true
         }
       }
-
       
     },
 
@@ -172,24 +164,30 @@ module.exports = function (grunt) {
       }
     },
 
-    // watch 是在調用 grunt-watch 這個 task
     watch: {
-      
       all: {
         files:['<%= cfg.js %>', '<%= cfg.specs %>', '<%= cfg.tpl.app %>', '<%= cfg.tpl.common %>', '<%= cfg.html %>'],
         tasks:['default','timestamp']
       },
-
       build: {
         files:['<%= cfg.js %>', '<%= cfg.specs %>', '<%= cfg.tpl.app %>', '<%= cfg.tpl.common %>', '<%= cfg.html %>'],
         tasks:['build','timestamp']
       },
-
       // dev 開發時只將 src/ 下面所有 js 合併成一張放到 /dist 下面，方便我用 index-debug.html 載入
       dev: {
           files: [ 'src/**/*', 'vendor/**/*' ],
           tasks: [ 'concat:dist', 'timestamp' ]
       },
+      sass: {
+        files: ['src/sass/**/*.{scss,sass}','src/sass/_partials/**/*.{scss,sass}'],
+        tasks: ['sass:dist']
+      },
+      livereload: {
+        files: ['*.html', '*.php', 'js/**/*.{js,json}', 'css/*.css','img/**/*.{png,jpg,jpeg,gif,webp,svg}'],
+        options: {
+          livereload: true
+        }
+      }
     },
 
     // task
@@ -198,7 +196,6 @@ module.exports = function (grunt) {
       unit: { options: karmaConfig('test/config/unit.js') },
       watch: { options: karmaConfig('test/config/unit.js', { singleRun:false, autoWatch: true}) }
     },
-
 
     //
     jshint:{
@@ -215,28 +212,32 @@ module.exports = function (grunt) {
         eqnull:true,
         globals:{}
       }
+    },
+
+    sass: {
+      dist: {
+        files: {
+          'src/assets/css/app.css': 'src/assets/sass/app.scss'
+        }
+      }
     }
 
-
   });
+  // grunt.registerTask('default', ['sass:dist', 'watch']);
   
   // 
   grunt.registerTask('watchdev', ['watch:dev']);
 
   grunt.registerTask('build', ['clean','html2js','concat','copy', 'clean:remove_sass']);
-  
 
   // Default task.
   grunt.registerTask('default', ['jshint','build','karma:unit']);
-  
   
   // grunt.registerTask('build', ['clean','html2js','concat','copy:assets']);
   
   grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
   
   grunt.registerTask('test-watch', ['karma:watch']);
-  
-  
 
-
+  grunt.registerTask('css-compile', ['sass:dist']);
 };
