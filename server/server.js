@@ -1,6 +1,14 @@
 var express = require("express"),
   app     = express(),
-  port    = parseInt(process.env.PORT, 10) || 8080;
+  config  = require('./config.js'),
+  port    = parseInt(process.env.PORT, 10) || config.server.listener;
+
+// 路由設定
+
+require('./routes/static.js').addRoutes(app, config);
+require('./routes/app.js').addRoutes(app, config);
+
+// 組態設定
 
 app.configure(function(){
   app.use(express.methodOverride());
