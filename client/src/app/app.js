@@ -4,7 +4,6 @@ var app = angular.module('app', [
 ]);
 
 app.controller('appCtrl', ['$scope', '$location', function ($scope, $location){
-	console.log( 'App Controller!!' );
 
 	// 回到首頁
 	$scope.root = function (){
@@ -13,6 +12,7 @@ app.controller('appCtrl', ['$scope', '$location', function ($scope, $location){
 
 	// Phone 列表頁面
 	$scope.phones = function (){
-		$location.path = '/phones';
+		$location.path( '/phones' );
 	}
+	
 }]);

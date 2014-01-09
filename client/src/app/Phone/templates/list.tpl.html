@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 pull-left">
-    <button type="button" class="btn btn-primary btn-add">Add List</button>
+    <button type="button" class="btn btn-primary btn-add" ng-click="add()">新增資料</button>
   </div>
 </div>
 
@@ -13,14 +13,14 @@
   <div class="col-md-7">
     <div class="row">
       <i class="icon-star-empty"></i>
-        <h4><a href="javascript:#">{{phone.title}}</a></h4>
+        <h4><a href="javascript:;" ng-click="detail(phone)">{{phone.title}}</a></h4>
     </div>
     
     <br/>
 
     <div class="row">
       <p>{{phone.description}}</p>
-      <button class="btn btn-danger btn-delete pull-right">Delete</button>
+      <button class="btn btn-danger btn-delete pull-right" ng-click="remove(phone)">刪除</button>
     </div>
   </div>
   
