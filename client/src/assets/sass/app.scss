@@ -59,3 +59,18 @@ code {
   padding-top: 30px;
   padding-bottom: 30px;
 }
+
+.hover {
+  background-color: #ECECEC;
+}
+
+.pointer {
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    color: #428bca;
+  }
+}

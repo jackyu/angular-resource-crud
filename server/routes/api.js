@@ -46,9 +46,11 @@ exports.addRoutes = function (app, config) {
 
 	// 取得單一筆資料
 	app.get('/api/phone/:id', function (req, res){
-		if( phones.length <= req.params.id || req.params.id < 0 ) {
+
+		console.log( '取得單一筆資料!!' );
+		if( phones.length < req.params.id || req.params.id < 0 ) {
 			res.statusCode = 404;
-			return req.send('Error 404: no phone found');
+			return res.send('Error 404: no phone found');
 		}
 
 		var phone = phones[req.params.id-1];
@@ -56,10 +58,18 @@ exports.addRoutes = function (app, config) {
 	});
 
 
-	// 保存資料
+	// 新增資料
 	app.post('/api/phone', function(req, res){
 
 	  console.log('新增單筆: ', req.params.id, req.query, req.body );
+
+	  // 檢查傳入的物件身上是否擁有 phone 資料屬性
+	  if( !req.body.hasOwnProperty('title') || 
+	  		!req.body.hasOwnProperty('image') ||
+	  		!req.body.hasOwnProperty('description')) {
+	  	res.statusCode = 404;
+	  	return res.send('Error 404: Phone syntax incorrect.');
+	  }
 
 	  // if( req.body.data.length > 1 ) {
 	  //   console.log( '\t是多筆資料' );
@@ -76,14 +86,47 @@ exports.addRoutes = function (app, config) {
 	  // 返還新增的單一筆資料
 	  res.json( phone );
 
+	  // 或是直接返還 true 告知
+	  // res.json( true );
+
 	  // 通常新增完資料，是重新撈一次全部資料返還
 	  // res.send({stat: 'ok', data:[phone]});
 	});
 
 
+	// 更新資料
+	app.put('/api/phone/:id', function(req, res){
+
+		console.log('更新單筆資料: ', req.params.id, req.query, req.body );
+
+		// 檢查傳入的物件身上是否擁有 phone 資料屬性
+	  if( !req.body.hasOwnProperty('title') || 
+	  		!req.body.hasOwnProperty('image') ||
+	  		!req.body.hasOwnProperty('description')) {
+	  	res.statusCode = 404;
+	  	return res.send('Error 404: Phone syntax incorrect.');
+	  }
+
+		phone = phones[req.params.id - 1];
+
+		phone.title = req.body.title;
+		phone.image = req.body.image;
+		phone.description = req.body.description;
+
+		res.json(phone);
+	});
+
+
 	// 刪除指定資料
 	app.delete('/api/phone/:id', function (req, res) {
-		console.log( 'delete data', req.params.id, req.body );
+
+		if( phones.length < req.params.id ) {
+	    res.statusCode = 404;
+	    return res.send('Error 404: No quote found');
+	  }
+
+		var index = req.params.id - 1;
+		phones.splice( index , 1 );
 		res.send( { stat: 'ok', data: req.body } );
 	});
 

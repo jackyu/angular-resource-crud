@@ -1,16 +1,12 @@
 var phone = angular.module('controllers.phone', [
-	'models.phone'
+	'models.phone',
+	'directives.phone'
 ]);
 
 // 列表頁
 phone.controller('phoneListCtrl', ['$scope', '$location', 'phoneModel', function($scope, $location, phoneModel){
 	
 	$scope.phones = phoneModel.getAll();
-
-	// 點擊詳細頁連結
-	$scope.detail = function (phone) {
-		$location.path( "/phone/" + phone.id );
-	};
 
 	// 點擊新增操作
 	$scope.add = function () {
@@ -36,33 +32,39 @@ phone.controller('phoneListCtrl', ['$scope', '$location', 'phoneModel', function
 		if( confirm('確定刪除這筆資料') ) {
 			// 先找出對應的索引位置
 			var index = $.inArray( phone, $scope.phones );
-			phoneModel.remove( phone.id , function(data){
+			phoneModel.remove( phone , function(data){
 				$scope.phones.splice( index, 1 );	
 			});
 		}
 	};
+
+	// 滑鼠移過時，背景色 hightlight
+	$scope.rowHightlight = function(row) {
+		$scope.selectedRow = row;
+	}
 
 }]);
 
 // 詳細頁
 phone.controller('phoneDetailCtrl', ['$scope', '$location', '$route', 'phoneModel', function($scope, $location, $route, phoneModel){
 
-	$scope.phone = phoneModel.getById( $route.current.params.id );
+	$scope.phone = phoneModel.getById( $route.current.params.id, 
+		function(phone){
+			// 複製一份資料用來做為取消還原資料用
+			$scope.old_phone = angular.copy(phone);
+		} 
+	);
 
-	// 點擊返回列表頁
-	$scope.back = function (){
-		$location.path( "/phones" );
-	}
-}]);
+	$scope.isShow = false;
 
+	// 點擊資料儲存操作
+	$scope.save = function () {
+		// 資料更新
+		// $scope.phone.title = $scope.phone.title + "123";
+		phoneModel.update( $scope.phone , function(phone){
+			$scope.isShow = false;
+			$scope.old_phone = angular.copy(phone);
+		});
+	};
 
-// 編輯頁
-phone.controller('phoneEditCtrl', ['$scope', '$location', '$route', 'phoneModel', function($scope, $location, $route, phoneModel){
-
-	$scope.phone = phoneModel.getById( $route.current.params.id );
-
-	// 點擊返回列表頁
-	$scope.back = function (){
-		$location.path( "/phones" );
-	}
 }]);

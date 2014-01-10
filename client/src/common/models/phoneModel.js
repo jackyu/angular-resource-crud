@@ -12,8 +12,8 @@ model.factory('phoneModel', ['phoneService', function(phoneService){
 		},
 
 		// 利用 id 取得單一資料
-		getById: function(id) {
-			return phoneService.get({id: id});
+		getById: function(id, sb, eb) {
+			return phoneService.get({id: id}, sb, eb);
 		},
 
 		// 儲存資料
@@ -22,16 +22,25 @@ model.factory('phoneModel', ['phoneService', function(phoneService){
 			if( !sb ) sb = angular.noop();
 			if( !eb ) eb = angular.noop();
 
-			return phoneService.save({}, phone, sb, eb);
+			return phoneService.save(phone, sb, eb);
 		},
 
-		// 刪除指定 id 的資料
-		remove: function(id, sb, eb) {
+		// 更新資料
+		update: function(phone, sb, eb) {
 
 			if( !sb ) sb = angular.noop();
 			if( !eb ) eb = angular.noop();
 
-			return phoneService.destroy({id: id}, sb, eb);
+			return phone.$update(sb, eb);
+		},
+
+		// 刪除指定 id 的資料
+		remove: function(phone, sb, eb) {
+
+			if( !sb ) sb = angular.noop();
+			if( !eb ) eb = angular.noop();
+
+			return phone.$destroy(sb, eb);
 		}
 
 	};

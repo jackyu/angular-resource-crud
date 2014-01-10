@@ -45,3 +45,14 @@ code {
 .content-box {
   padding-top: 30px;
   padding-bottom: 30px; }
+
+.hover {
+  background-color: #ececec; }
+
+.pointer {
+  text-decoration: none;
+  color: black;
+  cursor: pointer; }
+  .pointer:hover {
+    text-decoration: none;
+    color: #428bca; }
